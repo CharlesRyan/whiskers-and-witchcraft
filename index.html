@@ -199,6 +199,112 @@
         .help-toggle.visible {
             display: flex;
         }
+        
+        /* Animated Message System */
+        .message-container {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 998;
+            pointer-events: none;
+            width: 400px;
+        }
+        
+        .message-bar {
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #4B0082;
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(75, 0, 130, 0.5);
+            transform: translateY(-100px);
+            opacity: 0;
+            animation: messageSlideIn 0.5s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: messageShimmer 2s ease-in-out;
+        }
+        
+        .message-bar.success {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        
+        .message-bar.damage {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            text-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+        }
+        
+        .message-bar.warning {
+            border-color: #ff9800;
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+            text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+        
+        .message-bar.special {
+            border-color: #9C27B0;
+            background: rgba(156, 39, 176, 0.2);
+            color: #9C27B0;
+            text-shadow: 0 0 10px rgba(156, 39, 176, 0.5);
+        }
+        
+        .message-bar.dog-attack {
+            border-color: #795548;
+            background: rgba(121, 85, 72, 0.2);
+            color: #8D6E63;
+            text-shadow: 0 0 10px rgba(141, 110, 99, 0.5);
+        }
+        
+        @keyframes messageSlideIn {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes messageShimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        @keyframes messageFadeOut {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -249,6 +355,9 @@
     <div id="helpToggle" class="help-toggle" onclick="toggleInstructions()">
         ❓
     </div>
+    
+    <!-- Message Container for animated feedback -->
+    <div id="messageContainer" class="message-container"></div>
 
     <script type="module" src="/src/game.js"></script>
 </body>

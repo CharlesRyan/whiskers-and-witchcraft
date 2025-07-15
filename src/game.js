@@ -48,6 +48,32 @@ window.toggleCheatCodes = function() {
     }
 }
 
+// Message system for UI feedback
+window.showMessage = function(text, type = 'default', duration = 3000) {
+    const container = document.getElementById('messageContainer');
+    if (!container) return;
+    
+    // Create message element
+    const message = document.createElement('div');
+    message.className = `message-bar ${type}`;
+    message.textContent = text;
+    
+    // Add to container
+    container.appendChild(message);
+    
+    // Auto-remove after duration
+    setTimeout(() => {
+        if (message.parentNode) {
+            message.style.animation = 'messageFadeOut 0.3s ease-in forwards';
+            setTimeout(() => {
+                if (message.parentNode) {
+                    container.removeChild(message);
+                }
+            }, 300);
+        }
+    }, duration);
+}
+
 // Add click listener to close modal when clicking overlay
 window.addEventListener('load', () => {
     const modal = document.getElementById('instructionsModal');
@@ -765,7 +791,7 @@ class Game {
     }
 
     // Optimize explosion particles
-    createExplosion(vampire) {
+    createExplosion(vampire, killedBy = 'player') {
         if (vampire.userData.isExploded) return;
         
         vampire.userData.isExploded = true;
@@ -815,7 +841,14 @@ class Game {
         this.gameState.moneyPoints += 20;
         this.updateHUD();
         
-        console.log("Vampire exploded! +20 money points");
+        // Show different messages based on who killed the vampire
+        if (killedBy === 'dog') {
+            showMessage("🐕 Loyal companion defeated vampire! +20 coins", "dog-attack");
+            console.log("Dog defeated vampire! +20 money points");
+        } else {
+            showMessage("⚔️ Vampire vanquished! +20 coins", "success");
+            console.log("Vampire exploded! +20 money points");
+        }
     }
 
     // Update explosion particles
@@ -878,6 +911,7 @@ class Game {
             this.positionEnemyRandomly(vampire);
             
             this.gameState.lastVampireSpawnTime = currentTime;
+            showMessage("🧛 A vampire emerges from the shadows!", "warning", 2000);
             this.updateHUD();
         }
     }
@@ -1074,11 +1108,12 @@ class Game {
                 if (this.checkCollision(vampire)) {
                     if (this.gameState.isAttacking) {
                         // Player is attacking, explode the vampire
-                        this.createExplosion(vampire);
+                        this.createExplosion(vampire, 'player');
                     } else {
                         // Player is not attacking, lose money points
                         this.gameState.moneyPoints = Math.max(0, this.gameState.moneyPoints - 10);
                         this.updateHUD();
+                        showMessage("🧛 Vampire drained your coins! -10 coins", "damage");
                         console.log("Lost 10 money points to vampire!");
                     }
                 }
@@ -1346,6 +1381,7 @@ class Game {
         this.gameState.moneyPoints += cat.userData.moneyValue;
         this.updateHUD();
         
+        showMessage(`🐱 Cat rescued! +${cat.userData.moneyValue} coins`, "success");
         console.log(`Cat saved! +${cat.userData.moneyValue} money points`);
         
         // Create light effect
@@ -1614,6 +1650,7 @@ class Game {
         });
         
         // Play laser sound or effect
+        showMessage("🔥 LASER BARRAGE UNLEASHED!", "special");
         console.log("LASER ATTACK!");
     }
     
@@ -1773,6 +1810,7 @@ class Game {
 
     // Call money cats to the player
     callMoneyCats() {
+        showMessage("🐈 Here kitty kitty! Come to me!", "warning");
         console.log("Calling all money cats!");
         
         // Create a visual effect at the player's position to indicate the call
@@ -2097,7 +2135,7 @@ class Game {
                     // Check for collision with vampire
                     if (nearestDistance < 1.5) {
                         // Explode the vampire
-                        this.createExplosion(nearestVampire);
+                        this.createExplosion(nearestVampire, 'dog');
                         
                         // Add a small delay before attacking another vampire
                         this.gameState.dog.lastAttackTime = performance.now();
