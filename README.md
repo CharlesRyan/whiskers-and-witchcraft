@@ -8,13 +8,12 @@
 
 ## ✨ The Story Behind the Magic
 
-This delightful little game is the result of a fun AI-assisted coding session, inspired by my incredible life partner who embodies the perfect blend of:
+This delightful little game is the result of a fun AI-assisted coding session, inspired by:
 - 🔮 **Witchy vibes** - mystical, magical, and wonderfully enchanting
 - 🐱 **Cat obsession** - because every good witch needs her familiars
 - 🐕 **Dog love** - loyal companions make the best sidekicks
 - 💰 **Financial wisdom** - turning financial education into something magical
 
-What started as a playful experiment in collaborative coding with AI became a charming tribute to the person who makes every day feel like a magical adventure!
 
 ## 🎮 Game Features
 
@@ -78,7 +77,7 @@ This isn't just a game - it's a celebration of:
 
 ## 💝 Dedication
 
-*To my wonderful, witchy, cat-and-dog-loving, financially-wise life partner - thank you for being the inspiration behind this magical little world. Your blend of mystical energy and practical wisdom makes everything better, including random coding adventures at midnight!*
+*To my wonderful, witchy, cat-and-dog-loving, financially-wise life partner - thank you for being the inspiration behind this magical little world. Your blend of mystical energy and practical wisdom makes everything better, including random coding adventures*
 
 ## 🌟 What's Next?
 
