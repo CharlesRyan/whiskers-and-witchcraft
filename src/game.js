@@ -1,6 +1,87 @@
 import * as THREE from 'three';
 import { GUI } from 'dat.gui';
 
+// Instructions modal functionality
+let game;
+let instructionsShown = false;
+
+window.startGame = function() {
+    const modal = document.getElementById('instructionsModal');
+    const helpToggle = document.getElementById('helpToggle');
+    
+    modal.classList.add('hidden');
+    helpToggle.classList.add('visible');
+    instructionsShown = true;
+    
+    // Auto-hide instructions after 3 seconds if user doesn't click start
+    setTimeout(() => {
+        if (!instructionsShown) {
+            modal.classList.add('hidden');
+            helpToggle.classList.add('visible');
+        }
+    }, 3000);
+}
+
+window.toggleInstructions = function() {
+    const modal = document.getElementById('instructionsModal');
+    const helpToggle = document.getElementById('helpToggle');
+    
+    if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+        helpToggle.classList.remove('visible');
+    } else {
+        modal.classList.add('hidden');
+        helpToggle.classList.add('visible');
+    }
+}
+
+window.toggleCheatCodes = function() {
+    const content = document.getElementById('cheatCodesContent');
+    const toggle = document.getElementById('cheatToggle');
+    
+    if (content.classList.contains('expanded')) {
+        content.classList.remove('expanded');
+        toggle.classList.remove('expanded');
+    } else {
+        content.classList.add('expanded');
+        toggle.classList.add('expanded');
+    }
+}
+
+// Add click listener to close modal when clicking overlay
+window.addEventListener('load', () => {
+    const modal = document.getElementById('instructionsModal');
+    const instructionsContent = modal.querySelector('.instructions-content');
+    
+    modal.addEventListener('click', (e) => {
+        // Only close if clicking the overlay (modal background), not the content
+        if (e.target === modal) {
+            const helpToggle = document.getElementById('helpToggle');
+            modal.classList.add('hidden');
+            helpToggle.classList.add('visible');
+            instructionsShown = true;
+        }
+    });
+    
+    // Prevent clicks on the content from bubbling up to the modal
+    instructionsContent.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+    
+    // Initialize the game
+    game = new Game();
+});
+
+// Auto-hide instructions after 5 seconds if user doesn't interact
+setTimeout(() => {
+    if (!instructionsShown) {
+        const modal = document.getElementById('instructionsModal');
+        const helpToggle = document.getElementById('helpToggle');
+        modal.classList.add('hidden');
+        helpToggle.classList.add('visible');
+    }
+}, 5000);
+
 class Game {
     constructor() {
         // Setup scene
@@ -1651,7 +1732,7 @@ class Game {
                         currentPosition.lerpVectors(laser.startPosition, laser.endPosition, laser.travelProgress);
                         laser.mesh.position.copy(currentPosition);
                         
-                        // Scale laser based on distance traveled
+                        // Scale laser to reach vampire
                         const currentDistance = laser.startPosition.distanceTo(currentPosition);
                         laser.mesh.scale.z = currentDistance;
                         
@@ -1829,6 +1910,7 @@ class Game {
         dogGroup.add(body);
         
         // Head
+       
         const headGeometry = new THREE.SphereGeometry(0.3, 8, 8);
         const head = new THREE.Mesh(headGeometry, bodyMaterial);
         head.position.y = 0.9;
@@ -2078,8 +2160,3 @@ class Game {
         }
     }
 }
-
-// Create game instance when the window loads
-window.addEventListener('load', () => {
-    new Game();
-}); 
