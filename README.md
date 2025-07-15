@@ -2,6 +2,10 @@
 
 *A magical Three.js adventure born from love, cats, and AI-assisted vibe coding*
 
+**Live Demo**: https://whiskers-and-witchcraft.netlify.app/
+
+---
+
 ## ✨ The Story Behind the Magic
 
 This delightful little game is the result of a fun AI-assisted coding session, inspired by my incredible life partner who embodies the perfect blend of:
@@ -40,6 +44,13 @@ This project showcases the joy of **AI-assisted vibe coding** - where creativity
 - **AI Partnership** - Human creativity + AI assistance = ✨ magic ✨
 
 ## 🚀 Getting Started
+
+### 🎯 Quick Start - Just Play!
+**Want to jump right into the magic?** 
+👉 **[Play Whiskers & Witchcraft Now!](https://whiskers-and-witchcraft.netlify.app/)** 👈
+
+### 🛠️ Local Development
+Want to tinker with the magic yourself?
 
 ```bash
 # Clone this magical repository
